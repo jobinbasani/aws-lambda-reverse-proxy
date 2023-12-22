@@ -2,28 +2,49 @@ package main
 
 import (
 	"github.com/aws/aws-cdk-go/awscdk/v2"
-	// "github.com/aws/aws-cdk-go/awscdk/v2/awssqs"
+	"github.com/aws/aws-cdk-go/awscdk/v2/awslambda"
+	"github.com/aws/aws-cdk-go/awscdklambdagoalpha/v2"
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
 )
 
-type LambdaReverseProxyStackProps struct {
+type InfraStackProps struct {
 	awscdk.StackProps
 }
 
-func NewLambdaReverseProxyStack(scope constructs.Construct, id string, props *LambdaReverseProxyStackProps) awscdk.Stack {
+func NewInfraStack(scope constructs.Construct, id string, props *InfraStackProps) awscdk.Stack {
 	var sprops awscdk.StackProps
 	if props != nil {
 		sprops = props.StackProps
 	}
 	stack := awscdk.NewStack(scope, &id, &sprops)
 
-	// The code that defines your stack goes here
+	goLambdaFunction := awscdklambdagoalpha.NewGoFunction(
+		stack,
+		jsii.String("reverse-proxy"),
+		&awscdklambdagoalpha.GoFunctionProps{
+			Entry: jsii.String("../lambda/"),
+			Environment: &map[string]*string{
+				"TARGET_BASE_URL": jsii.String("https://gobyexample.com"),
+			},
+			Bundling: &awscdklambdagoalpha.BundlingOptions{
+				Environment: &map[string]*string{
+					"CGO_ENABLED": jsii.String("0"),
+				},
+			},
+		})
 
-	// example resource
-	// queue := awssqs.NewQueue(stack, jsii.String("LambdaReverseProxyQueue"), &awssqs.QueueProps{
-	// 	VisibilityTimeout: awscdk.Duration_Seconds(jsii.Number(300)),
-	// })
+	functionUrl := goLambdaFunction.AddFunctionUrl(&awslambda.FunctionUrlOptions{
+		AuthType: awslambda.FunctionUrlAuthType_NONE,
+		Cors: &awslambda.FunctionUrlCorsOptions{
+			AllowedOrigins: &[]*string{jsii.String("*")},
+		},
+	})
+
+	awscdk.NewCfnOutput(stack, jsii.String("reverse-proxy-url"), &awscdk.CfnOutputProps{
+		Value:       functionUrl.Url(),
+		Description: jsii.String("Reverse proxy URL"),
+	})
 
 	return stack
 }
@@ -33,7 +54,7 @@ func main() {
 
 	app := awscdk.NewApp(nil)
 
-	NewLambdaReverseProxyStack(app, "LambdaReverseProxyStack", &LambdaReverseProxyStackProps{
+	NewInfraStack(app, "InfraStack", &InfraStackProps{
 		awscdk.StackProps{
 			Env: env(),
 		},

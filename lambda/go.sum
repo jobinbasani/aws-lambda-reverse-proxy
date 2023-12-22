@@ -1,0 +1,6 @@
+github.com/aws/aws-lambda-go v1.38.0 h1:4CUdxGzvuQp0o8Zh7KtupB9XvCiiY8yKqJtzco+gsDw=
+github.com/aws/aws-lambda-go v1.38.0/go.mod h1:jwFe2KmMsHmffA1X2R09hH6lFzJQxzI8qK17ewzbQMM=
+github.com/morelj/httptools v0.3.0 h1:j5GaMW8vLsIEUW3k59eCfnAhqQiD68S1zCH8bCy+xrk=
+github.com/morelj/httptools v0.3.0/go.mod h1:jfOq9oGy+7HcRHagXgIoJr2D9iZ/856FfYi9Yf/CJXs=
+github.com/morelj/lambada v0.2.0 h1:zGwqaoZUWI1PDFgX4HTlTOu+/n3FESBppOJCxpPJzAY=
+github.com/morelj/lambada v0.2.0/go.mod h1:01yDBkbhO7csaC3YPYWccDzesBFsF1e0N/f6YpdfC4I=

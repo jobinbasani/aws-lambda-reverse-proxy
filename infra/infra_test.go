@@ -9,13 +9,13 @@ package main
 // )
 
 // example tests. To run these tests, uncomment this file along with the
-// example resource in lambda-reverse-proxy_test.go
-// func TestLambdaReverseProxyStack(t *testing.T) {
+// example resource in infra_test.go
+// func TestInfraStack(t *testing.T) {
 // 	// GIVEN
 // 	app := awscdk.NewApp(nil)
 
 // 	// WHEN
-// 	stack := NewLambdaReverseProxyStack(app, "MyStack", nil)
+// 	stack := NewInfraStack(app, "MyStack", nil)
 
 // 	// THEN
 // 	template := assertions.Template_FromStack(stack, nil)
