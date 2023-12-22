@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/morelj/lambada"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
 	"os"
 	"strings"
-
-	"github.com/morelj/lambada"
 )
 
 func main() {
@@ -17,17 +16,15 @@ func main() {
 		baseUrl := os.Getenv("TARGET_BASE_URL")
 
 		if len(baseUrl) == 0 {
-			w.Write(([]byte)("<html><body><h1>TARGET_BASE_URL environment variable is not set</h1></body></html>"))
+			writeError(w, "TARGET_BASE_URL environment variable is not set")
 			return
 		}
 
 		target, err := url.Parse(baseUrl)
 		if err != nil {
-			w.Write(([]byte)(fmt.Sprintf("<html><body><h1>Error parsing base url: %s</h1></body></html>", err.Error())))
+			writeError(w, fmt.Sprintf("Error parsing base url: %s", err.Error()))
 			return
 		}
-		fmt.Println(r.URL.Path)
-		fmt.Println(r.URL.RawQuery)
 		proxy := &httputil.ReverseProxy{
 			Director: func(req *http.Request) {
 				path := req.URL.Path
@@ -43,4 +40,8 @@ func main() {
 		}
 		proxy.ServeHTTP(w, r)
 	}))
+}
+
+func writeError(w http.ResponseWriter, msg string) {
+	w.Write(([]byte)(fmt.Sprintf("<html><body><h1>%s</h1></body></html>", msg)))
 }
