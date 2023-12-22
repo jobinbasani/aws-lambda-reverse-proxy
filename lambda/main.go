@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/morelj/lambada"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
 	"os"
 	"strings"
+
+	"github.com/morelj/lambada"
 )
 
 func main() {
