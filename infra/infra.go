@@ -8,6 +8,8 @@ import (
 	"github.com/aws/jsii-runtime-go"
 )
 
+const host = "https://gobyexample.com"
+
 type InfraStackProps struct {
 	awscdk.StackProps
 }
@@ -25,7 +27,7 @@ func NewInfraStack(scope constructs.Construct, id string, props *InfraStackProps
 		&awscdklambdagoalpha.GoFunctionProps{
 			Entry: jsii.String("../lambda/"),
 			Environment: &map[string]*string{
-				"TARGET_BASE_URL": jsii.String("https://gobyexample.com"),
+				"TARGET_BASE_URL": jsii.String(host),
 			},
 			Bundling: &awscdklambdagoalpha.BundlingOptions{
 				Environment: &map[string]*string{
