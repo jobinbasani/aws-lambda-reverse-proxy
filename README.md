@@ -5,6 +5,8 @@ The host to be proxied is set as an environment variable.
 
 Infrastructure is created using CDK.
 
+Set the host at [infra/infra.go#L11](infra/infra.go#L11)
+
 To deploy this function,
 
     cd infra
